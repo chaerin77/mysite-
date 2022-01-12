@@ -1,4 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="com.javaex.vo.UserVo" %>
+
+<%
+	String result = request.getParameter("result");
+	UserVo authUser = (UserVo)session.getAttribute("authUser");
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +20,7 @@
 
 		<div id="header" class="clearfix">
 			<h1>
-				<a href="">MySite</a>
+				<a href="/mysite/main">MySite</a>
 			</h1>
 
 			<!-- 
@@ -23,10 +30,18 @@
 				<li><a href="" class="btn_s">회원정보수정</a></li>
 			</ul>
 			-->	
-			<ul>
-				<li><a href="" class="btn_s">로그인</a></li>
-				<li><a href="" class="btn_s">회원가입</a></li>
-			</ul>
+			<%if(authUser == null){ %>
+				<ul>
+					<li><a href="/mysite/user?action=loginForm" class="btn_s">로그인</a></li>
+					<li><a href="/mysite/user?action=joinForm" class="btn_s">회원가입</a></li>
+				</ul>
+			<%}else {%>
+				<ul>
+					<li><%=authUser.getName()%> 님 안녕하세요^^</li>
+					<li><a href="/mysite/user?action=logout" class="btn_s">로그아웃</a></li>
+					<li><a href="/mysite/user?action=modifyForm" class="btn_s">회원정보수정</a></li>
+				</ul>
+			<%}%>
 			
 		</div>
 		<!-- //header -->
@@ -36,7 +51,7 @@
 				<li><a href="">입사지원서</a></li>
 				<li><a href="">게시판</a></li>
 				<li><a href="">갤러리</a></li>
-				<li><a href="">방명록</a></li>
+				<li><a href="/mysite/guest?action=addList">방명록</a></li>
 			</ul>
 		</div>
 		<!-- //nav -->
@@ -69,26 +84,30 @@
 	
 				<div id="user">
 					<div id="loginForm">
-						<form action="" method="">
+						<form action="/mysite/user" method="get">
 	
 							<!-- 아이디 -->
 							<div class="form-group">
 								<label class="form-text" for="input-uid">아이디</label> 
-								<input type="text" id="input-uid" name="" value="" placeholder="아이디를 입력하세요">
+								<input type="text" id="input-uid" name="id" value="" placeholder="아이디를 입력하세요">
 							</div>
 	
 							<!-- 비밀번호 -->
 							<div class="form-group">
 								<label class="form-text" for="input-pass">비밀번호</label> 
-								<input type="text" id="input-pass" name="" value="" placeholder="비밀번호를 입력하세요"	>
+								<input type="text" id="input-pass" name="password" value="" placeholder="비밀번호를 입력하세요"	>
 							</div>
-	
+							
+							<%if("fail".equals(result)){ //주소창에result=fail일때.%>
+								<p>로그인에 실패했습니다. 다시 로그인 해주세요.</p><!-- 로그인에 실패했을때, 파라미터값 result = fail 일때 -->
+							<%}%>
 							
 							<!-- 버튼영역 -->
 							<div class="button-area">
 								<button type="submit" id="btn-submit">로그인</button>
 							</div>
 							
+							<input type="text" name="action" value="login">
 						</form>
 					</div>
 					<!-- //loginForm -->

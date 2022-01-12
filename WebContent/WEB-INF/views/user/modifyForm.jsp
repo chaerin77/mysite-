@@ -2,7 +2,7 @@
 <%@ page import="com.javaex.vo.UserVo" %>
 
 <%
-	UserVo authUser = (UserVo)session.getAttribute("authUser");
+	UserVo authUser = (UserVo)session.getAttribute("authUser"); 
 %>
 
 <!DOCTYPE html>
@@ -10,7 +10,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link href="/mysite/assets/css/mysite.css" rel="stylesheet" type="text/css"><!-- /mysite~ 주소잘쓰기 -->
+<link href="/mysite/assets/css/mysite.css" rel="stylesheet" type="text/css">
 <link href="/mysite/assets/css/user.css" rel="stylesheet" type="text/css">
 
 </head>
@@ -42,7 +42,6 @@
 					<li><a href="/mysite/user?action=modifyForm" class="btn_s">회원정보수정</a></li>
 				</ul>
 			<%}%>
-			
 		</div>
 		<!-- //header -->
 
@@ -51,7 +50,7 @@
 				<li><a href="">입사지원서</a></li>
 				<li><a href="">게시판</a></li>
 				<li><a href="">갤러리</a></li>
-				<li><a href="/mysite/guest?action=addList">방명록</a></li><!-- guestcontroller action=addList주소랑 연결해놓기 -->
+				<li><a href="/mysite/guest?action=addList">방명록</a></li>
 			</ul>
 		</div>
 		<!-- //nav -->
@@ -70,27 +69,26 @@
 			<div id="content">
 			
 				<div id="content-head">
-					<h3>회원가입</h3>
+					<h3>회원정보</h3>
 					<div id="location">
 						<ul>
 							<li>홈</li>
 							<li>회원</li>
-							<li class="last">회원가입</li>
+							<li class="last">회원정보</li>
 						</ul>
 					</div>
 					<div class="clear"></div>
 				</div>
-				<!-- //content-head -->
+				 <!-- //content-head -->
 	
 				<div id="user">
-					<div id="joinForm">
+					<div id="modifyForm">
 						<form action="/mysite/user" method="get">
 	
 							<!-- 아이디 -->
 							<div class="form-group">
 								<label class="form-text" for="input-uid">아이디</label> 
-								<input type="text" id="input-uid" name="id" value="" placeholder="아이디를 입력하세요">
-								<button type="button" id="">중복체크</button>
+								<span class="text-large bold"><%=authUser.getId()%></span>
 							</div>
 	
 							<!-- 비밀번호 -->
@@ -113,40 +111,36 @@
 								<input type="radio" id="rdo-male" name="gender" value="male" > 
 								
 								<label for="rdo-female">여</label> 
-								<input type="radio" id="rdo-female" name="gender" value="female" ><!-- 미리 단어 정해놓기 사용자가 버튼을 누르면 어떤값을 눌렀는지 value에 정해져있는값으로 알수있으니까--> 
+								<input type="radio" id="rdo-female" name="gender" value="female" > 
 	
 							</div>
 	
-							<!-- 약관동의 -->
-							<div class="form-group">
-								<span class="form-text">약관동의</span> 
-								
-								<input type="checkbox" id="chk-agree" value="" name="">
-								<label for="chk-agree">서비스 약관에 동의합니다.</label> 
-							</div>
-							
 							<!-- 버튼영역 -->
 							<div class="button-area">
-								<button type="submit" id="btn-submit">회원가입</button>
+								<button type="submit" id="btn-submit">회원정보수정</button>
 							</div>
 							
-							<input type="text" name="action" value="join">
+							<input type="text" name="no" value="<%=authUser.getNo()%>"><!-- guestbook2 deleteForm 참고 -->
+							<input type="text" name="action" value="modify"><!-- action=modify -->
 							
 						</form>
+					
+					
 					</div>
-					<!-- //joinForm -->
+					<!-- //modifyForm -->
 				</div>
 				<!-- //user -->
 			</div>
 			<!-- //content  -->
+
 		</div>
 		<!-- //container  -->
-		
+
 		<div id="footer">
 			Copyright ⓒ 2020 황일영. All right reserved
 		</div>
 		<!-- //footer -->
-
+		
 	</div>
 	<!-- //wrap -->
 

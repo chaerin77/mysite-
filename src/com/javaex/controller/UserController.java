@@ -7,6 +7,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.javaex.dao.UserDao;
 import com.javaex.util.WebUtil;
@@ -54,9 +55,57 @@ public class UserController extends HttpServlet {
 			//포워드
 			WebUtil.forward(request, response, "/WEB-INF/views/user/loginForm.jsp");
 			
-		}else {
+		}else if("login".equals(act)){
+			System.out.println("action=login"); //user > login
+			
+			String id = request.getParameter("id");
+			String password = request.getParameter("password");
+			
+			System.out.println(id);
+			System.out.println(password);
+			
+			UserDao userDao = new UserDao();
+			UserVo authVo = userDao.getUser(id, password);//내가입력한 아이디/비번과 일치하는 사람의 정보를 db에서 갖고온게 담겨진것이 authVoS
+			//System.out.println(uservo);
+			
+			if(authVo == null) {//로그인실패
+				System.out.println("로그인실패");
+				//로그인 실패해서 여기로 온건지 그냥 로그인폼으로 오고싶어서 주소창에 user?action=loginForm 친건지 구분해줘야함
+				
+				WebUtil.redirect(request, response, "/mysite/user?action=loginForm&result=fail");//result변수에 fail이라는값이 담겨있으면 로그인실패해서 loginForm으로 다시온거라는표시
+				
+			}else {//로그인성공
+				System.out.println("로그인성공");
+				
+				HttpSession session = request.getSession(); //session1111에 접속하게
+				session.setAttribute("authUser", authVo); //로그인 성공하면 세션공간만들고 정보넣기
+				System.out.println(session);
+				
+				WebUtil.redirect(request, response, "/mysite/main");
+			}
+			
+		}else if("logout".equals(act)) {
+			System.out.println("로그아웃");
+			
+			HttpSession session = request.getSession();
+			session.removeAttribute("authUser");
+			//session.invalidate();
+			
+			WebUtil.redirect(request, response, "/mysite/main");
+		
+		}else if("modifyForm".equals(act)) {
+			System.out.println("action=modifyForm 회원정보 수정폼");
+			
+			//user?action=modifyForm&no=7 이런식이어야 몇번의 정보를 바꿔달라하는지알테니까 번호를 넣어야할텐데 어떻게?--modifyForm.jsp에서 session.getAttribute
+			//System.out.println(session);
+			
+			WebUtil.forward(request, response, "/WEB-INF/views/user/modifyForm.jsp");
+		
+		}else if("modify".equals(act)) {
+			System.out.println("action=modify 회원정보 수정");
 			
 		}
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
