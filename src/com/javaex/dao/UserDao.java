@@ -107,7 +107,10 @@ public class UserDao {
 			// 문자열
 			String query ="";
 			query += " select no, ";
-			query += "        name ";
+			query += "        name, ";
+			query += "        id, ";
+			query += "        password, ";
+			query += "        gender ";
 			query += " from users ";
 			query += " where id = ? ";
 			query += " and password = ? ";
@@ -127,12 +130,74 @@ public class UserDao {
 				
 				int no = rs.getInt("no");
 				String name = rs.getString("name");
+				String uid = rs.getString("id");
+				String pw = rs.getString("password");
+				String gender = rs.getString("gender");
 				
 				//UserVo userVo = new UserVo(no, name);
 				//UserVo userVo = new UserVo(); 
 				userVo = new UserVo();
 				userVo.setNo(no);
 				userVo.setName(name);
+				userVo.setId(uid);
+				userVo.setPassword(pw);
+				userVo.setGender(gender);
+			}
+			
+		}catch (SQLException e) {
+			System.out.println("error:" + e);	
+		}
+		
+		close();
+		return userVo;
+	}
+	
+	public UserVo getUser(int no) {
+		UserVo userVo = null;
+		
+		getConnection();
+		
+		try {
+			// 3. SQL문 준비 / 바인딩 / 실행
+			// 문자열
+			String query ="";
+			query += " select no, ";
+			query += "        name, ";
+			query += "        id, ";
+			query += "        password, ";
+			query += "        gender ";
+			query += " from users ";
+			query += " where no = ? ";
+
+			//쿼리문 만들기
+			pstmt = conn.prepareStatement(query);
+			
+			//바인딩
+			pstmt.setInt(1, no);
+		
+			//실행
+			rs = pstmt.executeQuery();
+			
+			//4.결과처리
+			while(rs.next()) {
+				
+				int num = rs.getInt("no");
+				String name = rs.getString("name");
+				String id = rs.getString("id");
+				String pw = rs.getString("password");
+				String gender = rs.getString("gender");
+				
+				//UserVo userVo = new UserVo(no, name);
+				//UserVo userVo = new UserVo(); 
+				
+				userVo = new UserVo();
+				userVo.setNo(num);
+				userVo.setName(name);
+				userVo.setId(id);
+				userVo.setPassword(pw);
+				userVo.setGender(gender);
+				
+				//UserVo userVo = new UserVo(no, id, pw, name, gender);
 			}
 			
 		}catch (SQLException e) {
@@ -143,4 +208,39 @@ public class UserDao {
 		return userVo;
 	}
 
+	public int update(UserVo vo) {
+		int count =0;
+		getConnection();
+		
+		try {
+			//3.문자열만들기 /쿼리문 /바인딩/ 실행
+			//문자열 만들기
+			String query = "";
+			query += " update users ";
+			query += " set password = ?, ";
+			query += "     name = ?, ";
+			query += "     gender = ? ";
+			query += " where no = ? ";
+			
+			//쿼리문 만들기
+			pstmt=conn.prepareStatement(query);
+			
+			//바인딩
+			pstmt.setString(1, vo.getPassword());
+			pstmt.setString(2, vo.getName());
+			pstmt.setString(3, vo.getGender());
+			pstmt.setInt(4, vo.getNo());
+			
+			//실행
+			count = pstmt.executeUpdate();
+			
+			//결과처리
+			System.out.println(count + "건이 등록되었습니다.(UserDao)");
+		}catch (SQLException e) {
+			System.out.println("error:" + e);	
+		}
+		
+		close();
+		return count;
+	}
 }

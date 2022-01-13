@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.javaex.vo.UserVo" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<%
-	UserVo authUser = (UserVo)session.getAttribute("authUser");//"authUser" 주소를 authUser에 담는거니까 얘의 형은 따라가보면 UserVo라서 UserVo authUser씀
-
-%>
 
 <!DOCTYPE html>
 <html>
@@ -19,61 +15,13 @@
 <body>
 	<div id="wrap">
 
-		<div id="header" class="clearfix">
-			<h1>
-				<a href="/mysite/main">MySite</a>
-			</h1>
-
-			<%/*
-			if(세션영역에 값이 없으면){
-				로그인 실패
-			}else {
-				로그인 성공
-			}*/
-			%>
-			<%
-			if(authUser == null){%> <!-- 입력한 정보를 만족하는 db의 데이터가 없으면(로그인실패) -->
-				<!-- 로그인실패, 로그인전 -->
-				<ul>
-					<li><a href="/mysite/user?action=loginForm" class="btn_s">로그인</a></li><!-- 로그인 실패하거나 안했을때 -->
-					<li><a href="/mysite/user?action=joinForm" class="btn_s">회원가입</a></li>
-				</ul>
-			<%}else {%>
-				<!-- 로그인성공 -->
-				<ul>
-					<li><%=authUser.getName()%> 님 안녕하세요^^</li>
-					<li><a href="/mysite/user?action=logout" class="btn_s">로그아웃</a></li>
-					<li><a href="/mysite/user?action=modifyForm" class="btn_s">회원정보수정</a></li>
-				</ul>
-			<%}%>
-			
-			
-			<!-- 
-			<ul>
-				<li>황일영 님 안녕하세요^^</li>
-				<li><a href="" class="btn_s">로그아웃</a></li>
-				<li><a href="" class="btn_s">회원정보수정</a></li>
-			</ul>
-			-->	
-			<!--  
-			<ul>
-				<li><a href="/mysite/user?action=loginForm" class="btn_s">로그인</a></li><!-- 로그인 실패하거나 안했을때 
-				<li><a href="/mysite/user?action=joinForm" class="btn_s">회원가입</a></li>
-			</ul> -->
-			
-		</div>
-		<!-- //header -->
-
-		<div id="nav">
-			<ul class="clearfix">
-				<li><a href="">입사지원서</a></li>
-				<li><a href="">게시판</a></li>
-				<li><a href="">갤러리</a></li>
-				<li><a href="/mysite/guest?action=addList">방명록</a></li>
-			</ul>
-		</div>
+		
+		<!-- //header +nav --header.jsp에 공통으로 빼놓음 -->
+		<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include><!-- 이건뭐고 -->
 		<!-- //nav -->
 
+		<c:import url="/WEB-INF/views/include/header.jsp"></c:import><!-- 이건뭐임 둘중에 하나만써야 제대로 나옴 그리고 두개다 주석안먹음; -->
+		<!-- 이거 주석 안먹음 -->
 		
 		<div id="container" class="clearfix">
 			<!-- aside 없음 -->
@@ -118,9 +66,7 @@
 		<!-- //container -->
 		
 		
-		<div id="footer">
-			Copyright ⓒ 2020 황일영. All right reserved
-		</div>
+		<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
 		<!-- //footer -->
 
 	</div>

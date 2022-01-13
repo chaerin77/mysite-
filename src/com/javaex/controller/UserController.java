@@ -96,14 +96,38 @@ public class UserController extends HttpServlet {
 		}else if("modifyForm".equals(act)) {
 			System.out.println("action=modifyForm 회원정보 수정폼");
 			
-			//user?action=modifyForm&no=7 이런식이어야 몇번의 정보를 바꿔달라하는지알테니까 번호를 넣어야할텐데 어떻게?--modifyForm.jsp에서 session.getAttribute
-			//System.out.println(session);
+			HttpSession session = request.getSession();
+			UserVo uvo = (UserVo)session.getAttribute("authUser"); 
+			System.out.println(uvo);
+			
+			int no = uvo.getNo(); 
+			
+			//db에서 no값을 불러와야하는데 그 번호 - 로그인한 사용자꺼 -> 그거 아까 세션에넣었음
+			UserDao uDao = new UserDao();
+			UserVo uVo = uDao.getUser(no); //dao 메소드를 잘못만들었나 확인해볼것. uVo가 값이 아예없는지확인
+			
+			request.setAttribute("userVo", uVo);
+			System.out.println(uVo);
 			
 			WebUtil.forward(request, response, "/WEB-INF/views/user/modifyForm.jsp");
 		
 		}else if("modify".equals(act)) {
 			System.out.println("action=modify 회원정보 수정");
 			
+			String name = request.getParameter("name");
+			String password = request.getParameter("password");
+			String gender = request.getParameter("gender");
+			int no = Integer.parseInt(request.getParameter("no"));
+			
+			UserVo uvo = new UserVo(no, password, name, gender);
+			
+			UserDao uDao = new UserDao();
+			uDao.update(uvo);
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("usession", uvo);
+			
+			WebUtil.redirect(request, response, "/mysite/main");
 		}
 		
 	}
