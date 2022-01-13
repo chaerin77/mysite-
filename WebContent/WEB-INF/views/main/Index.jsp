@@ -16,12 +16,8 @@
 	<div id="wrap">
 
 		
-		<!-- //header +nav --header.jsp에 공통으로 빼놓음 -->
-		<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include><!-- 이건뭐고 -->
-		<!-- //nav -->
-
-		<c:import url="/WEB-INF/views/include/header.jsp"></c:import><!-- 이건뭐임 둘중에 하나만써야 제대로 나옴 그리고 두개다 주석안먹음; -->
-		<!-- 이거 주석 안먹음 -->
+		<!-- //header +nav --header.jsp에 공통으로 빼놓음 include대신 이걸로 -->
+		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
 		
 		<div id="container" class="clearfix">
 			<!-- aside 없음 -->

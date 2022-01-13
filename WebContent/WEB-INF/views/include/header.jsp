@@ -22,33 +22,10 @@
 				<a href="/mysite/main">MySite</a>
 			</h1>
 
-			<%/*
-			if(세션영역에 값이 없으면){
-				로그인 실패
-			}else {
-				로그인 성공
-			}*/
-			%>
-			
-			<%
-			if(authUser == null){%> <!-- 입력한 정보를 만족하는 db의 데이터가 없으면(로그인실패) -->
-				<!-- 로그인실패, 로그인전 -->
-				<ul>
-					<li><a href="/mysite/user?action=loginForm" class="btn_s">로그인</a></li><!-- 로그인 실패하거나 안했을때 -->
-					<li><a href="/mysite/user?action=joinForm" class="btn_s">회원가입</a></li>
-				</ul>
-			<%}else {%>
-				<!-- 로그인성공 -->
-				<ul>
-					<li>${sessionScope.authUser.name} 님 안녕하세요^^</li>
-					<!-- <li> 자바코드값/*authUser.getName()*/ 님 안녕하세요^^ </li>-->
-					<li><a href="/mysite/user?action=logout" class="btn_s">로그아웃</a></li>
-					<li><a href="/mysite/user?action=modifyForm" class="btn_s">회원정보수정</a></li>
-				</ul>
-			<%}%>
-			<!-- sessionScope인지 어떻게알지..? -->
+	
 			<c:choose>
 				<c:when test="${empty sessionScope.authUser}">
+					<!-- 로그인실패, 로그인전 -->
 					<ul>
 						<li><a href="/mysite/user?action=loginForm" class="btn_s">로그인</a></li><!-- 로그인 실패하거나 안했을때 -->
 						<li><a href="/mysite/user?action=joinForm" class="btn_s">회원가입</a></li>
@@ -56,30 +33,16 @@
 				</c:when>
 				
 				<c:otherwise>
-						<!-- 로그인성공 -->
+					<!-- 로그인성공 -->
 					<ul>
-						<li>${sessionScope.authUser.name} 님 안녕하세요^^</li>
-						<li>${authUser.name} 님 안녕하세요^^</li>
-						<!-- <li> 자바코드값/*authUser.getName()*/ 님 안녕하세요^^ </li>-->
+						<!-- <li>${sessionScope.authUser.name} 님 안녕하세요^^</li> 세션에 있는 값 꺼내기-->
+						<li>${authUser.name} 님 안녕하세요^^</li><!-- 위랑 같은거 -->
 						<li><a href="/mysite/user?action=logout" class="btn_s">로그아웃</a></li>
 						<li><a href="/mysite/user?action=modifyForm" class="btn_s">회원정보수정</a></li>
 					</ul>
 				</c:otherwise>
 			</c:choose>
 			
-			
-			<!-- 
-			<ul>
-				<li>황일영 님 안녕하세요^^</li>
-				<li><a href="" class="btn_s">로그아웃</a></li>
-				<li><a href="" class="btn_s">회원정보수정</a></li>
-			</ul>
-			-->	
-			<!--  
-			<ul>
-				<li><a href="/mysite/user?action=loginForm" class="btn_s">로그인</a></li><!-- 로그인 실패하거나 안했을때 
-				<li><a href="/mysite/user?action=joinForm" class="btn_s">회원가입</a></li>
-			</ul> -->
 			
 		</div>
 		<!-- //header -->
