@@ -1,10 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.javaex.vo.UserVo" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 
 <%
-	//UserVo authUser = (UserVo)session.getAttribute("authUser"); 
-	//String id = request.getParameter("id");
-	UserVo userVo = (UserVo)request.getAttribute("userVo");
+	//UserVo userVo = (UserVo)request.getAttribute("userVo"); request의 attribute에정보넣은거 갖고와야함 -->requestScope
 %>
 
 <!DOCTYPE html>
@@ -21,7 +20,7 @@
 	<div id="wrap">
 
 
-		<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
 		<!-- //header -->
 		<!-- //nav -->
 
@@ -58,7 +57,7 @@
 							<!-- 아이디 -->
 							<div class="form-group">
 								<label class="form-text" for="input-uid">아이디</label> 
-								<span class="text-large bold"><%=userVo.getId()%></span>
+								<span class="text-large bold">${requestScope.userVo.id}</span>
 							</div>
 	
 							<!-- 비밀번호 -->
@@ -90,7 +89,7 @@
 								<button type="submit" id="btn-submit">회원정보수정</button>
 							</div>
 							
-							<input type="text" name="no" value="<%=userVo.getNo()%>"><!-- guestbook2 deleteForm 참고  흠..수정전에authUser.getNo()로했었음..-->
+							<input type="text" name="no" value="${requestScope.userVo.no}"><!--userVo.no로 앞에 scope생략해도 됨 어디있는지 확실히 알려고 생략안해놨음-->
 							<input type="text" name="action" value="modify"><!-- action=modify -->
 							
 						</form>
@@ -106,7 +105,7 @@
 		</div>
 		<!-- //container  -->
 
-		<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
 		<!-- //footer -->
 		
 	</div>

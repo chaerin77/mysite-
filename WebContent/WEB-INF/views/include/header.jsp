@@ -1,11 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.javaex.vo.UserVo" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
-<%
-	UserVo authUser = (UserVo)session.getAttribute("authUser");//"authUser" 주소를 authUser에 담는거니까 얘의 형은 따라가보면 UserVo라서 UserVo authUser씀
-	//헤더에서만 쓰는거라 index.jsp에서 삭제함 //Scope 이거쓰면 값 다 가져올수있어서 이코드필요없음 vo import도 필요없고
-%>
 
 
 <!DOCTYPE html>

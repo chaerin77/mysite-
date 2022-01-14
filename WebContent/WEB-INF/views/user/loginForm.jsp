@@ -1,9 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.javaex.vo.UserVo" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <%
 	String result = request.getParameter("result");
-	UserVo authUser = (UserVo)session.getAttribute("authUser");
 %>
 
 <!DOCTYPE html>
@@ -19,7 +18,7 @@
 	<div id="wrap">
 
 		
-		<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
 		<!-- //header -->
 		<!-- //nav -->
 
@@ -65,9 +64,11 @@
 								<input type="text" id="input-pass" name="password" value="" placeholder="비밀번호를 입력하세요"	>
 							</div>
 							
-							<%if("fail".equals(result)){ //주소창에result=fail일때.%>
+							
+							<c:if test="${param.result == 'fail'}">
 								<p>로그인에 실패했습니다. 다시 로그인 해주세요.</p><!-- 로그인에 실패했을때, 파라미터값 result = fail 일때 -->
-							<%}%>
+							</c:if>
+							
 							
 							<!-- 버튼영역 -->
 							<div class="button-area">
@@ -86,7 +87,8 @@
 		</div>
 		<!-- //container  -->
 
-		<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
+
+		<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
 		<!-- //footer -->
 
 	</div>

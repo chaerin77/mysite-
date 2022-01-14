@@ -1,10 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.javaex.vo.UserVo" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<%
-	int no = Integer.parseInt(request.getParameter("no"));
-	UserVo authUser = (UserVo)session.getAttribute("authUser");
-%>
 
 <!DOCTYPE html>
 <html>
@@ -19,7 +15,7 @@
 <body>
 	<div id="wrap">
 
-		<jsp:include page="/WEB-INF/views/include/header.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/header.jsp"></c:import>
 		<!-- //header -->
 		<!-- //nav -->
 
@@ -61,10 +57,10 @@
 								<td>비밀번호</td>
 								<td><input type="password" name="pass" value=""></td>
 								<td class="text-left"><button type="submit">삭제</button></td>
-								<td><a href="/mysite/main">[메인으로 돌아가기]</a></td><!-- 일단냅둠 -->
+								<td><a href="/mysite/main">[메인으로 돌아가기]</a></td>
 							</tr>
 						</table>
-						<input type='hidden' name="no" value="<%=no%>">
+						<input type='hidden' name="no" value="${param.no}">
 						<input type='hidden' name="action" value="delete">
 					</form>
 					
@@ -76,7 +72,7 @@
 		</div>
 		<!-- //container  -->
 		
-		<jsp:include page="/WEB-INF/views/include/footer.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/include/footer.jsp"></c:import>
 		<!-- //footer -->
 
 	</div>
