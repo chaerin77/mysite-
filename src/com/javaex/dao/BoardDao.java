@@ -5,6 +5,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.javaex.vo.BoardVo;
 
 public class BoardDao {
 	
@@ -60,5 +64,49 @@ public class BoardDao {
 	}
 
 	
-	
+	public List<BoardVo> addList(){
+		List<BoardVo> boardList = new ArrayList<BoardVo>();
+		getConnection();
+		
+		try {
+			//3.문자열 만들기
+			String query ="";
+			query +=" select bo.no, ";
+			query +="        bo.title, ";
+			query +="        us.name, ";
+			query +="        bo.hit, ";
+			query +="        to_char(bo.reg_date, 'yy-mm-dd hh:mi') reg_date, ";
+			query +="        bo.user_no ";
+			query +=" from board bo, users us ";
+			query +=" where bo.user_no = us.no ";
+			query +=" order by reg_date ";
+			
+			//쿼리문으로 만들기
+			pstmt = conn.prepareStatement(query);
+			
+			//바인딩 생략
+			
+			//실행
+			rs = pstmt.executeQuery();
+			
+			//결과처리
+			while(rs.next()) {
+				int no = rs.getInt("no");
+				String title = rs.getString("title");
+				String name = rs.getString("name");
+				int hit = rs.getInt("hit");
+				String regDate = rs.getString("reg_date");
+				int user_no = rs.getInt("user_no");
+				
+				BoardVo bVo = new BoardVo(no, title, name, hit, regDate, user_no);
+				boardList.add(bVo);
+			}
+		
+		}catch (SQLException e) {
+			System.out.println("error:" + e);
+		}
+		
+		close();
+		return boardList;  
+	}
 }
