@@ -5,6 +5,7 @@ public class BoardVo {
 	//필드
 	private int no;
 	private String title;
+	private String content;
 	private String name;
 	private int hit;
 	private String reg_date;
@@ -27,6 +28,8 @@ public class BoardVo {
 		this.reg_date = reg_date;
 	}
 	
+	
+	
 	public BoardVo(String title, String name, int hit, String reg_date, int user_no) {
 		super();
 		this.title = title;
@@ -45,6 +48,19 @@ public class BoardVo {
 		this.reg_date = reg_date;
 		this.user_no = user_no;
 	}
+	
+	
+	public BoardVo(int no, String title, String content, String name, int hit, String reg_date, int user_no) {
+		super();
+		this.no = no;
+		this.title = title;
+		this.content = content;
+		this.name = name;
+		this.hit = hit;
+		this.reg_date = reg_date;
+		this.user_no = user_no;
+	}
+
 
 
 	//메소드 g/s
@@ -65,6 +81,16 @@ public class BoardVo {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	
+	public String getContent() {
+		return content;
+	}
+
+
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 
@@ -111,9 +137,9 @@ public class BoardVo {
 	//메소드 일반
 	@Override
 	public String toString() {
-		return "BoardVo [no=" + no + ", title=" + title + ", name=" + name + ", hit=" + hit + ", reg_date=" + reg_date
-				+ ", user_no=" + user_no + "]";
+		return "BoardVo [no=" + no + ", title=" + title + ", content=" + content + ", name=" + name + ", hit=" + hit
+				+ ", reg_date=" + reg_date + ", user_no=" + user_no + "]";
 	}
-	
+
 	
 }

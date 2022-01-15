@@ -124,8 +124,12 @@ public class UserController extends HttpServlet {
 			UserDao uDao = new UserDao();
 			uDao.update(uvo);
 			
+			
 			HttpSession session = request.getSession();
-			session.setAttribute("usession", uvo);
+			UserVo sVo = (UserVo)session.getAttribute("authUser"); //세션의 authUser에 저장된 값 갖고오기
+			sVo.setName(name); 
+			sVo.setPassword(password);
+			sVo.setGender(gender);
 			
 			WebUtil.redirect(request, response, "/mysite/main");
 		}
