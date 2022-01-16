@@ -135,7 +135,6 @@ public class BoardDao {
 			
 			//결과처리
 			
-			
 		}catch (SQLException e) {
 			System.out.println("error:" + e);	
 		}
@@ -154,7 +153,7 @@ public class BoardDao {
 			query +=" select bo.no, ";
 			query +="        us.name, ";
 			query +="        bo.hit, ";
-			query +="        to_char(bo.reg_date, 'yyyy-mm-dd') reg_date, ";
+			query +="        to_char(bo.reg_date, 'yyyy-mm-dd hh:mi') reg_date, ";
 			query +="        bo.title, ";
 			query +="        bo.content, ";
 			query +="        bo.user_no ";
@@ -199,5 +198,97 @@ public class BoardDao {
 		return bVo;
 	
 	}
+	
+	public void uphit(BoardVo bVo) {
+		getConnection();
+		try {
+			//3.문자열 만들기
+			String query ="";
+			query +=" update board ";
+			query +=" set hit =? ";
+			query +=" where no=? ";
+			
+			//쿼리문 만들기
+			pstmt=conn.prepareStatement(query);
+			
+			//바인딩
+			pstmt.setInt(1, bVo.getHit());
+			pstmt.setInt(2, bVo.getNo());
+			
+			//실행
+			pstmt.executeUpdate();
+			
+			//결과처리
+			
+		}catch (SQLException e) {
+			System.out.println("error:" + e);	
+		}
+		
+		close();
+		
+	}
+	
+	public void insert(BoardVo bVo) {
+		getConnection();
+		try {
+			//3.문자열 만들기
+			String query ="";
+			query +=" insert into board ";
+			query +=" values(seq_board_no.nextval, ?, ?, ?,  sysdate, ?) ";
+			
+			//쿼리문 만들기
+			pstmt=conn.prepareStatement(query);
+			
+			//바인딩
+			pstmt.setString(1, bVo.getTitle());
+			pstmt.setString(2, bVo.getContent());
+			pstmt.setInt(3, bVo.getHit());
+			pstmt.setInt(4, bVo.getUser_no());
+			
+			//실행
+			pstmt.executeUpdate();
+			
+			//결과처리
+			
+		}catch (SQLException e) {
+			System.out.println("error:" + e);	
+		}
+		
+		close();
+		
+	}
+	
+	public void update(BoardVo bVo) {
+		getConnection();
+		try {
+			//3.문자열 만들기
+			String query ="";
+			query +=" update board ";
+			query +=" set title = ?, ";
+			query +="     content = ? ";
+			query +=" where no = ? ";
+			
+			//쿼리문 만들기
+			pstmt=conn.prepareStatement(query);
+			
+			//바인딩
+			pstmt.setString(1, bVo.getTitle());
+			pstmt.setString(2, bVo.getContent());
+			pstmt.setInt(3, bVo.getNo());
+			
+			//실행
+			pstmt.executeUpdate();
+			
+			//결과처리
+			
+		}catch (SQLException e) {
+			System.out.println("error:" + e);	
+		}
+		
+		close();
+		
+	}
+	
+	
 
 }
