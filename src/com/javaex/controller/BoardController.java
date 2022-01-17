@@ -9,10 +9,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.javaex.dao.BoardDao;
 import com.javaex.util.WebUtil;
 import com.javaex.vo.BoardVo;
+import com.javaex.vo.UserVo;
 
 @WebServlet("/board")
 public class BoardController extends HttpServlet {
@@ -40,8 +42,32 @@ public class BoardController extends HttpServlet {
 			
 		}else if("writeForm".equals(act)) {
 			System.out.println("action=writeForm");	
+			//로그인 하지 않은 사용자가 주소창에 글쓰기폼 주소를 쳐서 들어오려고 한다면
+			//어떻게 막을 수 있을지? 만약 누군가 로그인 안한 상태에서 주소창에 글쓰기폼 주소치고 들어오려고 할때 메인페이지로 돌리기
 			
-			WebUtil.forward(request, response, "/WEB-INF/views/board/writeForm.jsp");
+			//로그인. 세션에 값이 있는지 없는지를 체크해야함 로그인 했냐안했냐.
+			/*
+			if(세션에 값이 있으면 --> 로그인 했으면, 로그인 성공하면){
+				writeForm
+			}else{
+				메인으로
+			}	
+			*/
+			HttpSession session = request.getSession(); //세션값 가져오기
+			UserVo authUser = (UserVo)session.getAttribute("authUser"); //userController에서 넣어놓은 authUser 갖고오기
+			
+			if( authUser !=null) {
+				System.out.println("로그인 했을 때");
+				//포워드
+				WebUtil.forward(request, response, "/WEB-INF/views/board/writeForm.jsp");
+			}else {
+				System.out.println("로그인 안했을 때");
+				//리다이렉트 메인으로
+				WebUtil.redirect(request, response, "/mysite/main");
+			}
+		
+			
+			//WebUtil.forward(request, response, "/WEB-INF/views/board/writeForm.jsp");
 			
 		}else if("write".equals(act)) {
 			System.out.println("action=write");
@@ -85,8 +111,19 @@ public class BoardController extends HttpServlet {
 			//hit++;
 			//System.out.println(hit);
 			
+			///////////////////////////////////////////
+			
+			/*
+			int count = boardVo.getHit();
+			count=0;
+			int hit = count++;
+			System.out.println(hit);//0 등록만들기*/
+			
+			///////////////////////////////////////////
+			
+			//이 방식은 사용자가 1명인 경우는 가능하지만 다수의 사용자가 사이트를 이용할 때 조회수가 맞지않는 문제가 발생함
+			/*
 			BoardDao bDao = new BoardDao();
-			//bDao.uphit(bVo);
 			BoardVo boardVo = bDao.read(no);
 			System.out.println(boardVo);
 			
@@ -95,13 +132,14 @@ public class BoardController extends HttpServlet {
 			boardVo.setHit(hit);
 			System.out.println(boardVo);
 			
-			bDao.uphit(boardVo);	
+			bDao.uphit(boardVo);*/	
 			
-			/*
-			int count = boardVo.getHit();
-			count=0;
-			int hit = count++;
-			System.out.println(hit);//0 등록만들기*/
+			/////////////////////////////////////////
+			
+			//no가 __인 사람의 정보를 읽어온 다음 uphit2메소드(쿼리문에 hit=hit+1)사용하여 쿼리문 자체에서 조회수 증가시키기
+			BoardDao bDao = new BoardDao();
+			BoardVo boardVo = bDao.read(no);
+			bDao.uphit2(boardVo);
 			
 			request.setAttribute("bVo", boardVo);
 			//request.setAttribute("Hit", hitplus);

@@ -100,17 +100,22 @@
 							<div class="clear"></div>
 						</div>
 						
+						<c:if test="${!empty sessionScope.authUser }">
+							<a id="btn_write" href="/mysite/board?action=writeForm">글쓰기</a>
+						</c:if>
+					
+					<!-- choose로 짜봤지만 코드 비어있는것 신경쓰여서 if문으로 다시 만듦 
 						<c:choose>
 							<c:when test="${empty sessionScope.authUser}" >
 								
 							</c:when>
 							
 							<c:otherwise>
-								<a id="btn_write" href="/mysite/board?action=writeForm">글쓰기</a>	
+								<a id="btn_write" href="/mysite/board?action=writeForm">글쓰기</a>			
 							</c:otherwise>
-						</c:choose>
+						</c:choose>			 
+					-->		
 						
-					
 					</div>
 					<!-- //list -->
 				</div>

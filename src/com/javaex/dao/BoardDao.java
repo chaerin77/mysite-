@@ -142,8 +142,7 @@ public class BoardDao {
 		
 	}
 	
-	
-	public BoardVo read(int rnum) {
+	public BoardVo read(int readnum) {
 		BoardVo bVo = new BoardVo();
 		getConnection();
 		
@@ -165,7 +164,7 @@ public class BoardDao {
 			pstmt = conn.prepareStatement(query);
 			
 			//바인딩
-			pstmt.setInt(1, rnum);
+			pstmt.setInt(1, readnum);
 			
 			//실행
 			rs = pstmt.executeQuery();
@@ -199,6 +198,7 @@ public class BoardDao {
 	
 	}
 	
+	//사용자 1명인 경우는 가능하지만 다수가 사이트를 사용할 경우 조회수가 맞지 않는 문제가 발생
 	public void uphit(BoardVo bVo) {
 		getConnection();
 		try {
@@ -214,6 +214,34 @@ public class BoardDao {
 			//바인딩
 			pstmt.setInt(1, bVo.getHit());
 			pstmt.setInt(2, bVo.getNo());
+			
+			//실행
+			pstmt.executeUpdate();
+			
+			//결과처리
+			
+		}catch (SQLException e) {
+			System.out.println("error:" + e);	
+		}
+		
+		close();
+		
+	}
+	
+	public void uphit2(BoardVo bVo) {
+		getConnection();
+		try {
+			//3.문자열 만들기
+			String query ="";
+			query +=" update board ";
+			query +=" set hit =hit+1 ";
+			query +=" where no=? ";
+			
+			//쿼리문 만들기
+			pstmt=conn.prepareStatement(query);
+			
+			//바인딩
+			pstmt.setInt(1, bVo.getNo());
 			
 			//실행
 			pstmt.executeUpdate();
