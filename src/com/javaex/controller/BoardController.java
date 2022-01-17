@@ -75,18 +75,28 @@ public class BoardController extends HttpServlet {
 			System.out.println("action=read");
 			
 			int no = Integer.parseInt(request.getParameter("no")); //board?action=read&no=35
+			//int hit = Integer.parseInt(request.getParameter("hit"));
 			/*
-			int hit = Integer.parseInt(request.getParameter("hit"));
 			int hitplus = hit++;//db에 조회수 증가 업데이트 하기 위해 dao에 uphit메소드 만들었음 -안먹음
 			
 			BoardVo bVo = new BoardVo(no,hitplus);
 			System.out.println(bVo);*/
 			
+			//hit++;
+			//System.out.println(hit);
+			
 			BoardDao bDao = new BoardDao();
 			//bDao.uphit(bVo);
 			BoardVo boardVo = bDao.read(no);
 			System.out.println(boardVo);
-
+			
+			int hit = boardVo.getHit();
+			hit++;
+			boardVo.setHit(hit);
+			System.out.println(boardVo);
+			
+			bDao.uphit(boardVo);	
+			
 			/*
 			int count = boardVo.getHit();
 			count=0;
